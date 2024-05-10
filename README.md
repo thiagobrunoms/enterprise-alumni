@@ -44,7 +44,7 @@ kminchelle
 
 ### Video Demo
 
-A video with the running solution has been recorded and is available [here](https://www.loom.com/share/5fc1d876609748bfb0586d07c1c43854).
+A video with the running solution has been recorded and is available [here](https://www.loom.com/share/5fc1d876609748bfb0586d07c1c43854). The CRUD project requirement and the bonus task (session management) are completed.
 
 ### Important Notes
 
