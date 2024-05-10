@@ -56,7 +56,7 @@ I wish I had more time to enhance these aspects:
 
 - There are some "naming conventions" in the provided project that do not adhere to Dart's standards. I would refactor them;
 - Hooks do not scale well for "big" projects. As the project grows, managing numerous hooks across different components can become complex. In my honest view, they become challenging to read and maintain. I would refactor to use Riverpod (for both state management and dependency injection - service locator). I would reserve hooks for specific scenarios;
-- I would segregate the "data layer" (`ut_dummy_json_api.dart`) based on the "Aggregates" concept. For instance, one `ut_dummy_json_api.dart` for login; another `ut_dummy_json_api.dart` file for products. I wouldn't mix them in one specific file. Using service locator e.g.; Riverpod/provider, we can locate the specific API;
+- I would segregate the "data layer" (`ut_dummy_json_api.dart`) based on the "Aggregates" concept (from the DDD - Domain-driven Design) in a more complex project. For instance, one `ut_dummy_json_api.dart` for login; another `ut_dummy_json_api.dart` file for products. I wouldn't mix them in one specific file. Using service locator e.g.; Riverpod/provider, we can locate the specific API;
 - I used default Flutter's Navigation. But I would use GoRouter package;
 - Automated testing is crucial. However, it could require significantly more time to complete and necessitate substantial changes to prioritize SOLID principles and streamline test inclusion.
 
