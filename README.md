@@ -46,6 +46,10 @@ kminchelle
 
 A video with the running solution has been recorded and is available [here](https://www.loom.com/share/5fc1d876609748bfb0586d07c1c43854). The CRUD project requirement and the bonus task (session management) are completed.
 
+### Task management
+
+I managed the tasks using github milestone and issues sections. For more details about how they were broken up, please, take a look at these sections.
+
 ### Important Notes
 
 I wish I had more time to enhance these aspects:
