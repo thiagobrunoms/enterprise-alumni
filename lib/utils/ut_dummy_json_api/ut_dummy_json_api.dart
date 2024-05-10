@@ -92,6 +92,14 @@ class UtDummyJsonApi {
 
   Future<ProductsList> products() async =>
       ProductsList.fromJson((await _client!.get('/products')).data);
+
+  Future<Product> doCreateProduct(Product product) async {
+    var res =
+        (await _client!.post('/products/add', data: product.toJson())).data;
+
+    product.id = res['id'];
+    return product;
+  }
 }
 
 UtDummyJsonApi utJsonDummyApi = UtDummyJsonApi._();
