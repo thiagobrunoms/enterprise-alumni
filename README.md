@@ -46,10 +46,6 @@ kminchelle
 
 A video with the running solution has been recorded and is available [here](https://www.loom.com/share/5fc1d876609748bfb0586d07c1c43854).
 
-### GitHub Repository
-
-The whole project and the solutions are provided in this [GitHub repository](https://github.com/thiagobrunoms/enterprise-alumni).
-
 ### Important Notes
 
 1. To be honest, I'm not used to using Hooks as state management. I have employed them in specific scenarios with particular widgets before;
