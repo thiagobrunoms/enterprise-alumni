@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test_template/products/cm_get_products.dart';
-import 'package:flutter_test_template/products/vw_create_product.dart';
+import 'package:flutter_test_template/products/vw_create_update_product.dart';
 import 'package:flutter_test_template/products/wd_product.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
 
@@ -18,6 +18,10 @@ class VwProducts extends HookWidget {
     useEffect(() {
       useProductsState.value = cmGetProductsResult.result?.products ?? [];
     }, [cmGetProductsResult.result]);
+
+    void removeProduct(Product product) {
+      useProductsState.value.remove(product);
+    }
 
     return Scaffold(
       body: Builder(
@@ -51,7 +55,10 @@ class VwProducts extends HookWidget {
           return ListView.builder(
             itemCount: useProductsState.value.length,
             itemBuilder: (context, index) {
-              return WdProduct(product: useProductsState.value[index]);
+              return WdProduct(
+                product: useProductsState.value[index],
+                onDismiss: () => removeProduct(useProductsState.value[index]),
+              );
             },
           );
         },
@@ -61,7 +68,7 @@ class VwProducts extends HookWidget {
           var newProduct = await showModalBottomSheet(
             context: context,
             builder: (context) {
-              return const VwCreateProduct();
+              return const VwCreateUpdateProduct();
             },
           );
 
