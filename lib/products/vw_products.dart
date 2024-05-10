@@ -3,9 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test_template/products/cm_get_products.dart';
 import 'package:flutter_test_template/products/vw_create_update_product.dart';
 import 'package:flutter_test_template/products/wd_product.dart';
+import 'package:flutter_test_template/profile/vw_profile.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
 
 import '../utils/ut_dummy_json_api/md_product.dart';
+import '../utils/ut_dummy_json_api/ut_dummy_json_api.dart';
 
 class VwProducts extends HookWidget {
   const VwProducts({Key? key}) : super(key: key);
@@ -24,6 +26,24 @@ class VwProducts extends HookWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Products'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const VwProfile()),
+              );
+            },
+            icon: const Icon(Icons.person),
+          ),
+          IconButton(
+            onPressed: utJsonDummyApi.logout,
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: Builder(
         builder: (context) {
           if (cmGetProductsResult.running) {

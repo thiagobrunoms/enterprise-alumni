@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,11 +9,12 @@ class VwLogin extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var _userNameTextController = useTextEditingController();
     var _passwordTextController = useTextEditingController();
 
     var _cmDoLogin = useCallAsync(cmDoLogin);
+    _userNameTextController.text = 'kminchelle';
+    _passwordTextController.text = '0lelplR';
 
     return Scaffold(
       body: Column(
@@ -28,53 +28,47 @@ class VwLogin extends HookWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text(
-                        'Login',
-                        style: Theme.of(context).textTheme.headlineLarge
-                      ),
+                      Text('Login',
+                          style: Theme.of(context).textTheme.headlineLarge),
                       TextField(
                         controller: _userNameTextController,
-                        decoration: const InputDecoration(
-                          label: Text('Username')
-                        ),
+                        decoration:
+                            const InputDecoration(label: Text('Username')),
                       ),
                       TextField(
                         controller: _passwordTextController,
                         obscureText: true,
                         decoration: const InputDecoration(
-                          label: Text('Password'),  
+                          label: Text('Password'),
                         ),
                       ),
                       const SizedBox(height: 30),
-                      if(_cmDoLogin.error != null)
+                      if (_cmDoLogin.error != null)
                         Text(
-                          (_cmDoLogin.error is DioException) 
-                            ? (_cmDoLogin.error as DioException).response?.data['message']
-                            : 'An error occurred while logging in, please try later', 
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.error
-                          )
-                        ),
-                      Builder(
-                        builder: (context) {
-
-                          if(_cmDoLogin.running){
-                            return const CircularProgressIndicator();
-                          }
-
-                          return OutlinedButton(
-                            onPressed: (){
-                              _cmDoLogin.call(
-                                CmDoLoginParams(
-                                  userName: _userNameTextController.text, 
-                                  password: _passwordTextController.text
-                                )
-                              );
-                            }, 
-                            child: const Text('Login')
-                          );
+                            (_cmDoLogin.error is DioException)
+                                ? (_cmDoLogin.error as DioException)
+                                    .response
+                                    ?.data['message']
+                                : 'An error occurred while logging in, please try later',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.error)),
+                      Builder(builder: (context) {
+                        if (_cmDoLogin.running) {
+                          return const CircularProgressIndicator();
                         }
-                      )
+
+                        return OutlinedButton(
+                            onPressed: () {
+                              _cmDoLogin.call(CmDoLoginParams(
+                                  userName: _userNameTextController.text,
+                                  password: _passwordTextController.text));
+                            },
+                            child: const Text('Login'));
+                      })
                     ],
                   ),
                 ),
@@ -85,5 +79,4 @@ class VwLogin extends HookWidget {
       ),
     );
   }
-
 }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test_template/utils/ut_dummy_json_api/md_product.dart';
 import 'package:flutter_test_template/utils/ut_dummy_json_api/md_profile.dart';
+import 'package:flutter_test_template/utils/ut_local_store/ut_local_store.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../products/cm_create_product.dart';
@@ -10,6 +11,8 @@ enum UtDummyJsonApiEvents { LOGGED_IN, LOGGED_OUT }
 class UtDummyJsonApi {
   String? _token;
   Dio? _client;
+  LocalStore localStoreInstance = LocalStore.instance;
+
   final Map<UtDummyJsonApiEvents, List<void Function()>> _subscribers = {};
 
   UtDummyJsonApi._();
@@ -22,7 +25,7 @@ class UtDummyJsonApi {
           handler.next(options);
           return;
         }
-        options.headers['Authorization'] = 'Bearer ${token()}';
+        options.headers['Authorization'] = 'Bearer $_token';
         if (await _isExpired() && !await _refreshToken()) {
           logout();
           return;
@@ -35,27 +38,40 @@ class UtDummyJsonApi {
   }
 
   Future<bool> login(String userName, String password) async {
-    var res = (await _client!.post('/auth/login', data: {
-      'username': userName,
-      'password': password,
-    }))
-        .data;
-    _token = res['token'];
+    _token = await localStoreInstance.loadToken();
+
+    if (await _isExpired()) {
+      var res = (await _client!.post('/auth/login', data: {
+        'username': userName,
+        'password': password,
+      }))
+          .data;
+      _token = res['token'];
+      localStoreInstance.saveToken(_token);
+    }
+
     _emit(UtDummyJsonApiEvents.LOGGED_IN);
     return true;
   }
 
   Future<bool> logout() async {
     _token = null;
+    await localStoreInstance.deleteToken();
     _emit(UtDummyJsonApiEvents.LOGGED_OUT);
     return true;
   }
 
-  String? token() => _token;
+  Future<bool> isLoggedIn() async {
+    _token = await localStoreInstance.loadToken();
+    return !(await _isExpired());
+  }
 
   Future<bool> _isExpired() async {
     try {
-      if (_token == null) return true;
+      if (_token == null) {
+        return true;
+      }
+
       return JwtDecoder.isExpired(_token!);
     } catch (_) {
       return true;
@@ -66,6 +82,8 @@ class UtDummyJsonApi {
     try {
       var res = (await _client?.post('/auth/refresh'))?.data;
       _token = res['token'];
+      await localStoreInstance.saveToken(_token);
+
       return _token != null;
     } catch (_) {
       return false;

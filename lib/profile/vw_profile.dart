@@ -9,62 +9,59 @@ class VwProfile extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     var _cmGetProfile = useAsync(() async => await cmGetProfile(), []);
 
-    return Scaffold(
-      body: Builder(builder: (context){
-        if(_cmGetProfile.running){
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return Scaffold(body: Builder(builder: (context) {
+      if (_cmGetProfile.running) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
 
-        if(_cmGetProfile.error != null){
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(30),
-              child: Text('An error occurred while retrieving profile data, please try again later'),
-            ),
-          );
-        }
-        
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if(_cmGetProfile.result?.image != null)
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(_cmGetProfile.result!.image!),
-                          radius: 42,
-                        ),
-                      const SizedBox(height: 18),
-                      Text(
-                        '${_cmGetProfile.result?.firstName} ${_cmGetProfile.result?.lastName}',
-                        style: Theme.of(context).textTheme.headlineLarge,
+      if (_cmGetProfile.error != null) {
+        return const Center(
+          child: Padding(
+            padding: EdgeInsets.all(30),
+            child: Text(
+                'An error occurred while retrieving profile data, please try again later'),
+          ),
+        );
+      }
+
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (_cmGetProfile.result?.image != null)
+                      CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(_cmGetProfile.result!.image!),
+                        radius: 42,
                       ),
-                      const SizedBox(height: 18),
-                      OutlinedButton(
-                        onPressed: (){
-                          utJsonDummyApi.logout();
-                        }, 
-                        child: const Text('Logout')
-                      )
-                    ],
-                  ),
+                    const SizedBox(height: 18),
+                    Text(
+                      '${_cmGetProfile.result?.firstName} ${_cmGetProfile.result?.lastName}',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    const SizedBox(height: 18),
+                    OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Back'),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        );
-      })
-    );
+          ),
+        ],
+      );
+    }));
   }
 }
