@@ -107,11 +107,17 @@ class UtDummyJsonApi {
     return Product.fromJson(res.data);
   }
 
+  Future<Product> doUpdateProduct(Product product) async {
+    var res = (await _client!.put(
+      '/products/${product.id}',
+      data: product.toJson(),
+    ));
+
+    return Product.fromJson(res.data);
+  }
+
   Future<bool> doDeleteProduct(int id) async {
     var res = (await _client!.delete('/products/$id'));
-    print('delete res');
-    print(res.data);
-    print(res.statusCode);
     return res.statusCode == 200;
   }
 }

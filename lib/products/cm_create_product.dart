@@ -8,8 +8,5 @@ class CmCreateProductParams {
   CmCreateProductParams({required this.title, required this.price});
 }
 
-Future<Product> cmCreateProduct(CmCreateProductParams product) async {
-  var result = await utJsonDummyApi.doCreateProduct(product);
-  print('result on use case');
-  return result;
-}
+Future<Product> cmCreateProduct(CmCreateProductParams product) async =>
+    await utJsonDummyApi.doCreateProduct(product);

@@ -55,9 +55,29 @@ class VwProducts extends HookWidget {
           return ListView.builder(
             itemCount: useProductsState.value.length,
             itemBuilder: (context, index) {
-              return WdProduct(
-                product: useProductsState.value[index],
-                onDismiss: () => removeProduct(useProductsState.value[index]),
+              var product = useProductsState.value[index];
+              return InkWell(
+                onTap: () async {
+                  var newProduct = await showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return VwCreateUpdateProduct(
+                        product: product,
+                      );
+                    },
+                  );
+
+                  if (newProduct != null) {
+                    useProductsState.value = [
+                      ...useProductsState.value,
+                      newProduct
+                    ];
+                  }
+                },
+                child: WdProduct(
+                  product: product,
+                  onDismiss: () => removeProduct(product),
+                ),
               );
             },
           );

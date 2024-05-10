@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test_template/products/cm_create_product.dart';
+import 'package:flutter_test_template/products/cm_update_product.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
 
-class VwCreateProduct extends HookWidget {
-  const VwCreateProduct({super.key});
+import '../utils/ut_dummy_json_api/md_product.dart';
+
+class VwCreateUpdateProduct extends HookWidget {
+  const VwCreateUpdateProduct({super.key, this.product});
+
+  final Product? product;
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +17,12 @@ class VwCreateProduct extends HookWidget {
     var productPriceController = useTextEditingController();
 
     var _cmCreateProduct = useCallAsync(cmCreateProduct);
+    var _cmUpdateProduct = useCallAsync(cmUpdateProduct);
+
+    if (product != null) {
+      productNameController.text = product!.title!;
+      productPriceController.text = product!.price.toString();
+    }
 
     return Scaffold(
       body: Column(
@@ -37,19 +48,29 @@ class VwCreateProduct extends HookWidget {
                     return const CircularProgressIndicator();
                   }
 
-                  print(_cmCreateProduct.result);
-                  if (_cmCreateProduct.result != null) {
-                    print('PRODUCT RESULT ${_cmCreateProduct.result}');
-                    Navigator.pop(context, _cmCreateProduct.result!);
+                  if (_cmCreateProduct.result != null ||
+                      _cmUpdateProduct.result != null) {
+                    Navigator.pop(context,
+                        _cmCreateProduct.result ?? _cmUpdateProduct.result);
                   }
 
                   return OutlinedButton(
                       onPressed: () {
-                        _cmCreateProduct.call(CmCreateProductParams(
-                            title: productNameController.text,
-                            price: int.parse(productPriceController.text)));
+                        if (product == null) {
+                          return _cmCreateProduct.call(
+                            CmCreateProductParams(
+                              title: productNameController.text,
+                              price: int.parse(productPriceController.text),
+                            ),
+                          );
+                        }
+
+                        product!.title = productNameController.text;
+                        product!.price = int.parse(productPriceController.text);
+                        _cmUpdateProduct.call(product!);
                       },
-                      child: const Text('Create Product'));
+                      child: Text(
+                          '${product == null ? 'Create' : 'Update'} Product'));
                 })
               ],
             ),
