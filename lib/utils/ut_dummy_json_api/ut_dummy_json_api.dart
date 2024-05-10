@@ -3,6 +3,8 @@ import 'package:flutter_test_template/utils/ut_dummy_json_api/md_product.dart';
 import 'package:flutter_test_template/utils/ut_dummy_json_api/md_profile.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
+import '../../products/cm_create_product.dart';
+
 enum UtDummyJsonApiEvents { LOGGED_IN, LOGGED_OUT }
 
 class UtDummyJsonApi {
@@ -93,12 +95,17 @@ class UtDummyJsonApi {
   Future<ProductsList> products() async =>
       ProductsList.fromJson((await _client!.get('/products')).data);
 
-  Future<Product> doCreateProduct(Product product) async {
-    var res =
-        (await _client!.post('/products/add', data: product.toJson())).data;
+  Future<Product> doCreateProduct(CmCreateProductParams productParams) async {
+    var res = (await _client!.post(
+      '/products/add',
+      data: {
+        'title': productParams.title,
+        'price': productParams.price,
+      },
+    ));
 
-    product.id = res['id'];
-    return product;
+    print('data from creating product ${res.data}');
+    return Product.fromJson(res.data);
   }
 }
 
