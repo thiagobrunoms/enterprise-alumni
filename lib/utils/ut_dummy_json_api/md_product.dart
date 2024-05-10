@@ -56,7 +56,7 @@ class Product {
     brand = json['brand'];
     category = json['category'];
     thumbnail = json['thumbnail'];
-    images = json['images'].cast<String>();
+    images = json['images']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {
