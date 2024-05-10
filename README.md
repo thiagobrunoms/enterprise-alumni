@@ -59,7 +59,7 @@ I wish I had more time to enhance these aspects:
 - I would segregate the "data layer" (`ut_dummy_json_api.dart`) based on the "Aggregates" concept (from the DDD - Domain-driven Design) in a more complex project. For instance, one `ut_dummy_json_api.dart` for login; another `ut_dummy_json_api.dart` file for products. I wouldn't mix them in one specific file. Using service locator e.g.; Riverpod/provider, we can locate the specific API;
 - I used default Flutter's Navigation. But I would use GoRouter package;
 - Automated testing is crucial. However, it could require significantly more time to complete and necessitate substantial changes to prioritize SOLID principles and streamline test inclusion.
-- Last, but not least, I love the "monorepo" approach. The [melos package](https://pub.dev/packages/melos) is an excelent tool for monorepo Flutter projects. I've been using it a lot! 
+- Last, but not least, I love the "monorepo" approach. The [melos package](https://pub.dev/packages/melos) is an excelent tool for monorepo Flutter projects. I've been using it a lot! Authentication and Products would be two different and independent packages that can be reused in different apps, but both resides into the same "project". 
 
 Many improvements can be made to enhance the readability and maintainability of this code. :).
 
