@@ -3,54 +3,48 @@ import 'package:dio/dio.dart';
 import 'http_client.dart';
 
 class DioHttpClient extends HttpClient<BasicApiFailure, ApiResponse, Interceptor> {
-  DioHttpClient._() {
-    _client = Dio(BaseOptions(baseUrl: 'https://dummyjson.com'));
-  }
+  DioHttpClient(this._client);
 
-  static DioHttpClient get getInstance {
-    return _instance;
-  }
-
-  late Dio _client;
-  static final DioHttpClient _instance = DioHttpClient._();
+  final Dio _client;
 
   @override
   Future<(BasicApiFailure?, ApiResponse?)> get(String url, {Map<String, dynamic>? queryParameters}) async {
     try {
       final response = await _client.get(url, queryParameters: queryParameters);
-      return (null, ApiResponse(statusCode: response.statusCode, data: response.data));
+      return _buildNetworkResponseData(response);
     } on DioException catch (e) {
       return _buildNetworkError(e);
     }
   }
 
   @override
-  Future<(BasicApiFailure?, ApiResponse?)> post(String url, dynamic data,
+  Future<(BasicApiFailure?, ApiResponse?)> post(String url, Map<String, dynamic> data,
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final response = await _client.post(url, data: data, queryParameters: queryParameters);
-      return (null, ApiResponse(statusCode: response.statusCode, data: response.data));
+      return _buildNetworkResponseData(response);
     } on DioException catch (e) {
       return _buildNetworkError(e);
     }
   }
 
   @override
-  Future<(BasicApiFailure?, ApiResponse?)> put(String url, dynamic data,
+  Future<(BasicApiFailure?, ApiResponse?)> put(String url, Map<String, dynamic> data,
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final response = await _client.put(url, data: data, queryParameters: queryParameters);
-      return (null, ApiResponse(statusCode: response.statusCode, data: response.data));
+      return _buildNetworkResponseData(response);
     } on DioException catch (e) {
       return _buildNetworkError(e);
     }
   }
 
   @override
-  Future<(BasicApiFailure?, ApiResponse?)> delete(String url, {Map<String, dynamic>? queryParameters}) async {
+  Future<(BasicApiFailure?, ApiResponse?)> delete(String url,
+      {Map<String, dynamic>? data, Map<String, dynamic>? queryParameters}) async {
     try {
-      final response = await _client.delete(url, queryParameters: queryParameters);
-      return (null, ApiResponse(statusCode: response.statusCode, data: response.data));
+      final response = await _client.delete(url, data: data, queryParameters: queryParameters);
+      return _buildNetworkResponseData(response);
     } on DioException catch (e) {
       return _buildNetworkError(e);
     }
