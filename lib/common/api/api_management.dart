@@ -32,8 +32,8 @@ class Api {
       }
       options.headers['Authorization'] = 'Bearer ${authentication.getToken()}';
       if (await authentication.isTokenExpired()) {
-        var (failure, refreshResponse) = await authentication.refreshToken();
-        if (failure == null && !refreshResponse) {
+        var response = await authentication.refreshToken();
+        if (!response) {
           await authentication.logout();
           return;
         }

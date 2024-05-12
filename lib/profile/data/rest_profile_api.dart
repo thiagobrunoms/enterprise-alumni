@@ -10,13 +10,9 @@ class RestProfileApi implements ProfileApi {
   late HttpClient _client;
 
   @override
-  Future<(BasicApiFailure?, Profile?)> getProfile() async {
-    var (failure, response) = await _client.get('/auth/me');
+  Future<Profile> getProfile() async {
+    var response = await _client.get('/auth/me');
 
-    if (failure != null) {
-      return (failure, null);
-    }
-
-    return (null, Profile.fromJson(response!.data));
+    return Profile.fromJson(response.data);
   }
 }

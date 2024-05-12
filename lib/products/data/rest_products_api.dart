@@ -11,52 +11,36 @@ class RestProductsApi implements ProductsApi {
   late HttpClient _client;
 
   @override
-  Future<(BasicApiFailure?, ProductsList?)> getProducts() async {
-    var (failure, response) = await _client.get('/products');
+  Future<ProductsList> getProducts() async {
+    var response = await _client.get('/products');
 
-    if (failure != null) {
-      return (failure, null);
-    }
-
-    return (null, ProductsList.fromJson(response!.data!));
+    return ProductsList.fromJson(response.data!);
   }
 
   @override
-  Future<(BasicApiFailure?, Product?)> createProduct(ProductDTO productParams) async {
-    var (failure, response) = (await _client.post(
+  Future<Product> createProduct(ProductDTO productParams) async {
+    var response = await _client.post(
       '/products/add',
       {
         'title': productParams.title,
         'price': productParams.price,
       },
-    ));
+    );
 
-    if (failure != null) {
-      return (failure, null);
-    }
-
-    return (null, Product.fromJson(response!.data!));
+    return Product.fromJson(response.data!);
   }
 
   @override
-  Future<(BasicApiFailure?, Product?)> updateProduct(Product product) async {
-    var (failure, response) = (await _client.put('/products/${product.id}', product.toJson()));
+  Future<Product> updateProduct(Product product) async {
+    var response = await _client.put('/products/${product.id}', product.toJson());
 
-    if (failure != null) {
-      return (failure, null);
-    }
-
-    return (null, Product.fromJson(response!.data!));
+    return Product.fromJson(response.data!);
   }
 
   @override
-  Future<(BasicApiFailure?, bool?)> deleteProduct(int productId) async {
-    var (failure, _) = (await _client!.delete('/products/$productId'));
+  Future<bool> deleteProduct(int productId) async {
+    var response = await _client.delete('/products/$productId');
 
-    if (failure != null) {
-      return (failure, null);
-    }
-
-    return (null, true);
+    return response.statusCode == 200;
   }
 }

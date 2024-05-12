@@ -1,5 +1,4 @@
 import 'package:flutter_test_template/common/api/api_management.dart';
-import 'package:flutter_test_template/common/api/http_client.dart';
 import 'package:flutter_test_template/common/router/router.dart';
 
 class CmDoLoginParams {
@@ -9,10 +8,10 @@ class CmDoLoginParams {
   CmDoLoginParams({required this.userName, required this.password});
 }
 
-Future<(BasicApiFailure?, bool)> cmDoLogin(CmDoLoginParams params) async {
+Future<bool> cmDoLogin(CmDoLoginParams params) async {
   var response = await api.authentication.login(params.userName, params.password);
 
-  if (response.$2) {
+  if (response) {
     goRouter.go('/products');
   }
 
