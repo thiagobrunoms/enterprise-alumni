@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_template/app.dart';
-import 'package:flutter_test_template/utils/ut_dummy_json_api/ut_dummy_json_api.dart';
+import 'package:flutter_test_template/common/api/api_management.dart';
 
 void main() async {
-  await utJsonDummyApi.setup();
+  await api.setup();
+
   runApp(const App());
 }

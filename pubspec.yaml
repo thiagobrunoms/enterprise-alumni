@@ -38,6 +38,7 @@ dependencies:
   dio: ^5.4.2+1
   jwt_decoder: ^2.0.1
   shared_preferences: ^2.2.3
+  mocktail: ^1.0.3
 
 dev_dependencies:
   flutter_test:

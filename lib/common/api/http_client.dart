@@ -4,6 +4,8 @@ import '../failure.dart';
 
 const String unexpectedErrorMessage = "Unexpected network error";
 
+abstract class BasicInterceptors {}
+
 class ApiResponse {
   ApiResponse({required this.statusCode, this.data});
 
@@ -17,7 +19,7 @@ class BasicApiFailure extends Failure {
   int? statusCode;
 }
 
-abstract class HttpClient<F extends Failure, R extends ApiResponse, I> {
+abstract class HttpClient<F extends BasicApiFailure, R extends ApiResponse, I> {
   Future<(F?, R?)> get(String url, {Map<String, dynamic> queryParameters});
   Future<(F?, R?)> post(String url, Map<String, dynamic> data, {Map<String, dynamic> queryParameters});
   Future<(F?, R?)> put(String url, Map<String, dynamic> data, {Map<String, dynamic> queryParameters});

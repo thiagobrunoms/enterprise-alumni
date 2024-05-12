@@ -1,4 +1,5 @@
-import 'package:flutter_test_template/utils/ut_dummy_json_api/ut_dummy_json_api.dart';
+import 'package:flutter_test_template/common/api/api_management.dart';
+import 'package:flutter_test_template/common/api/http_client.dart';
 
 class CmDoLoginParams {
   final String userName;
@@ -7,6 +8,6 @@ class CmDoLoginParams {
   CmDoLoginParams({required this.userName, required this.password});
 }
 
-Future<bool> cmDoLogin(CmDoLoginParams params) async {
-  return await utJsonDummyApi.login(params.userName, params.password);
+Future<(BasicApiFailure?, bool)> cmDoLogin(CmDoLoginParams params) async {
+  return await api.authentication.login(params.userName, params.password);
 }

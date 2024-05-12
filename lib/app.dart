@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test_template/auth/vw_login.dart';
 import 'package:flutter_test_template/products/vw_products.dart';
-import 'package:flutter_test_template/utils/ut_dummy_json_api/ut_dummy_json_api.dart';
+import 'package:flutter_test_template/common/ut_dummy_json_api.dart';
 
 class App extends HookWidget {
   const App({super.key});
@@ -12,12 +12,10 @@ class App extends HookWidget {
     var _reload = useState(0);
 
     useEffect(() {
-      var cancelOnLoggedInSub =
-          utJsonDummyApi.subscribe(UtDummyJsonApiEvents.LOGGED_IN, () {
+      var cancelOnLoggedInSub = utJsonDummyApi.subscribe(UtDummyJsonApiEvents.LOGGED_IN, () {
         _reload.value++;
       });
-      var cancelOnLoggedOutSub =
-          utJsonDummyApi.subscribe(UtDummyJsonApiEvents.LOGGED_OUT, () {
+      var cancelOnLoggedOutSub = utJsonDummyApi.subscribe(UtDummyJsonApiEvents.LOGGED_OUT, () {
         _reload.value++;
       });
       return () {
