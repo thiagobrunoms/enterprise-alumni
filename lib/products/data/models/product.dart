@@ -8,9 +8,7 @@ class ProductsList {
 
   ProductsList.fromJson(Map<String, dynamic> json) {
     if (json['products'] != null) {
-      products = (json['products'] as List)
-          .map((eachProduct) => Product.fromJson(eachProduct))
-          .toList();
+      products = (json['products'] as List).map((eachProduct) => Product.fromJson(eachProduct)).toList();
     }
 
     total = json['total'];

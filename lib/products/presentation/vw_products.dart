@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_test_template/products/cm_get_products.dart';
-import 'package:flutter_test_template/products/vw_create_update_product.dart';
-import 'package:flutter_test_template/products/wd_product.dart';
-import 'package:flutter_test_template/profile/vw_profile.dart';
+import 'package:flutter_test_template/common/api/api_management.dart';
+import 'package:flutter_test_template/common/api/http_client.dart';
+import 'package:flutter_test_template/common/failure.dart';
+import 'package:flutter_test_template/products/domain/cm_get_products.dart';
+import 'package:flutter_test_template/products/presentation/vw_create_update_product.dart';
+import 'package:flutter_test_template/products/presentation/wd_product.dart';
+import 'package:flutter_test_template/profile/presentation/vw_profile.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
 
-import '../utils/ut_dummy_json_api/md_product.dart';
-import '../utils/ut_dummy_json_api/ut_dummy_json_api.dart';
+import '../data/models/product.dart';
 
 class VwProducts extends HookWidget {
   const VwProducts({Key? key}) : super(key: key);
@@ -15,11 +17,18 @@ class VwProducts extends HookWidget {
   @override
   Widget build(BuildContext context) {
     var useProductsState = useState<List<Product>>([]);
+    var useFailureState = useState<Failure?>(null);
     var cmGetProductsResult = useAsync(() async => await cmGetProducts(), []);
 
     useEffect(() {
-      useProductsState.value = cmGetProductsResult.result?.products ?? [];
-    }, [cmGetProductsResult.result]);
+      var (failure, result) = cmGetProductsResult.result!;
+
+      if (result != null) {
+        useProductsState.value = result.products ?? <Product>[];
+      } else {
+        useFailureState.value = failure!;
+      }
+    }, [cmGetProductsResult.result, useFailureState]);
 
     void removeProduct(Product product) {
       useProductsState.value.remove(product);
@@ -39,7 +48,7 @@ class VwProducts extends HookWidget {
             icon: const Icon(Icons.person),
           ),
           IconButton(
-            onPressed: utJsonDummyApi.logout,
+            onPressed: api.authentication.logout, //IMPROVE AS COMMAND!
             icon: const Icon(Icons.logout),
           ),
         ],
@@ -52,12 +61,11 @@ class VwProducts extends HookWidget {
             );
           }
 
-          if (cmGetProductsResult.error != null) {
+          if (cmGetProductsResult.error != null || useFailureState.value != null) {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.all(30),
-                child: Text(
-                    'An error occurred while retrieving products list, please try again later'),
+                child: Text('An error occurred while retrieving products list, please try again later'),
               ),
             );
           }
@@ -66,8 +74,7 @@ class VwProducts extends HookWidget {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.all(30),
-                child: Text(
-                    'There are no products yet, please, add new products!'),
+                child: Text('There are no products yet, please, add new products!'),
               ),
             );
           }
@@ -88,10 +95,7 @@ class VwProducts extends HookWidget {
                   );
 
                   if (newProduct != null) {
-                    useProductsState.value = [
-                      ...useProductsState.value,
-                      newProduct
-                    ];
+                    useProductsState.value = [...useProductsState.value, newProduct];
                   }
                 },
                 child: WdProduct(

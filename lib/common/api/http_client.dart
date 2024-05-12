@@ -4,8 +4,6 @@ import '../failure.dart';
 
 const String unexpectedErrorMessage = "Unexpected network error";
 
-abstract class BasicInterceptors {}
-
 class ApiResponse {
   ApiResponse({required this.statusCode, this.data});
 
@@ -14,7 +12,8 @@ class ApiResponse {
 }
 
 class BasicApiFailure extends Failure {
-  BasicApiFailure({required String errorMessage, this.statusCode}) : super(errorMessage: errorMessage);
+  BasicApiFailure({String? errorMessage, this.statusCode})
+      : super(errorMessage: errorMessage ?? unexpectedErrorMessage);
 
   int? statusCode;
 }

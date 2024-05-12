@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_test_template/products/cm_delete_product.dart';
+import 'package:flutter_test_template/products/domain/cm_delete_product.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
-import 'package:flutter_test_template/utils/ut_dummy_json_api/md_product.dart';
+import 'package:flutter_test_template/products/data/models/product.dart';
 
 class WdProduct extends HookWidget {
   const WdProduct({
