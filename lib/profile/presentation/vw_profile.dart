@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_test_template/common/router/router.dart';
 import 'package:flutter_test_template/profile/domain/cm_get_profile.dart';
+import 'package:flutter_test_template/profile/presentation/profile_navigation.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
 
 class VwProfile extends HookWidget {
@@ -51,7 +53,7 @@ class VwProfile extends HookWidget {
                         ),
                         const SizedBox(height: 18),
                         OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: ProfileNavigation().goToProducts,
                           child: const Text('Back'),
                         ),
                       ],

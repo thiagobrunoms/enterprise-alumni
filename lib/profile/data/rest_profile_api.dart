@@ -12,7 +12,6 @@ class RestProfileApi implements ProfileApi {
   @override
   Future<Profile> getProfile() async {
     var response = await _client.get('/auth/me');
-
     return Profile.fromJson(response.data);
   }
 }

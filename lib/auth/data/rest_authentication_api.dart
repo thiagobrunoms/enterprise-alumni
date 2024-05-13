@@ -38,7 +38,7 @@ class RestAuthenticationApi implements AuthenticationApi {
 
   Future<bool> isLoggedIn() async {
     _token = await localStoreInstance.loadToken();
-    return await isTokenExpired();
+    return !(await isTokenExpired());
   }
 
   @override

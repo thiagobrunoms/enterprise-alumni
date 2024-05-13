@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_test_template/common/api/api_management.dart';
+import 'package:flutter_test_template/auth/domain/cm_do_logout.dart';
+import 'package:flutter_test_template/common/router/router.dart';
 import 'package:flutter_test_template/products/domain/cm_get_products.dart';
+import 'package:flutter_test_template/products/presentation/products_navigation.dart';
 import 'package:flutter_test_template/products/presentation/vw_create_update_product.dart';
 import 'package:flutter_test_template/products/presentation/wd_product.dart';
-import 'package:flutter_test_template/profile/presentation/vw_profile.dart';
 import 'package:flutter_test_template/utils/ut_custom_hooks.dart';
 
 import '../data/models/product.dart';
@@ -16,6 +17,7 @@ class VwProducts extends HookWidget {
   Widget build(BuildContext context) {
     var useProductsState = useState<List<Product>>([]);
     var cmGetProductsResult = useAsync(() async => await cmGetProducts(), []);
+    var _cmDoLogout = useCallAsync(cmDoLogout);
 
     useEffect(() {
       useProductsState.value = cmGetProductsResult.result?.products ?? [];
@@ -30,16 +32,11 @@ class VwProducts extends HookWidget {
         title: const Text('Products'),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const VwProfile()),
-              );
-            },
+            onPressed: ProductsNavigation().goToProfile,
             icon: const Icon(Icons.person),
           ),
           IconButton(
-            onPressed: api.authentication.logout, //IMPROVE AS COMMAND!
+            onPressed: () => _cmDoLogout.call(NoParam()),
             icon: const Icon(Icons.logout),
           ),
         ],
