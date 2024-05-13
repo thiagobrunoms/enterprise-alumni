@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test_template/auth/domain/cm_do_logout.dart';
-import 'package:flutter_test_template/common/router/router.dart';
 import 'package:flutter_test_template/products/domain/cm_get_products.dart';
 import 'package:flutter_test_template/products/presentation/products_navigation.dart';
 import 'package:flutter_test_template/products/presentation/vw_create_update_product.dart';
