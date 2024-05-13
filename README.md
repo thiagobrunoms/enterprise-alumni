@@ -42,6 +42,8 @@ kminchelle
 
 ## Additional Information - From Thiago
 
+- Please, if possible, consider the branch [refact/main](https://github.com/thiagobrunoms/enterprise-alumni/tree/refact/main) to evaluate this assessment. 
+
 ### Video Demo
 
 A video with the running solution has been recorded and is available [here](https://www.loom.com/share/5fc1d876609748bfb0586d07c1c43854). The CRUD project requirement and the bonus task (session management) are completed.
@@ -67,3 +69,4 @@ I hope we can discuss about the aforementioned things later.
 
 Sincerely,
 Thiago.
+
