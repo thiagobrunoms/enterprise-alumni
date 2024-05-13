@@ -72,7 +72,7 @@ Thiago.
 
 ### Video Demo
 
-A video with the running solution has been recorded and is available [here](https://www.loom.com/share/e846575dbf224a9a83f9d1500cc31e6a). The CRUD project requirement and the bonus task (session management) are completed.
+A new video with the running solution has been recorded and is available [here](https://www.loom.com/share/e846575dbf224a9a83f9d1500cc31e6a). The CRUD project requirement and the bonus task (session management) are completed.
 
 ### Important Notes
 
