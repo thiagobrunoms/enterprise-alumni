@@ -82,7 +82,7 @@ During this weekend, I decided to make some of the improvements I detailed befor
 
 1. Lack of flexibility to replace HTTP API tools: the first version uses Dio, and if we have any other newer package in the future, it would require a lot of work to replace Dio with the newer one.
 
-Now we have the `http_client`, which provides the minimal requirement for HTTP API. As an implementation example, the `dio_http_client` is an implementation of `http_client` using Dio. See also the `test` folder with some basic tests files. An API management is responsible for building an specific http client `strategy`.
+Now we have the `/common/api/http_client`, which provides the minimal requirement for HTTP API. As an implementation example, the `/common/api/dio_http_client` is an implementation of `http_client` using Dio. In addition, see the `test` folder with some basic tests file. An API management `/common/api/api_management` is responsible for building an specific http client `strategy`.
 
 2. Routing using the GoRoute package: as detailed in the demo video, GoRoute allows specifying routes and redirections.
 
