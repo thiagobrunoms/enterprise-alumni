@@ -39,6 +39,12 @@ class WdProduct extends HookWidget {
           _cmDeleteProduct.call(product.id!);
           onDismiss();
         }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("${product.title} has been deleted!"),
+          ),
+        );
       },
       confirmDismiss: (_) async {
         final confirmed = await showDialog<bool>(

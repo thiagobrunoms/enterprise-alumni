@@ -23,7 +23,7 @@ class VwProducts extends HookWidget {
     }, [cmGetProductsResult.result]);
 
     void removeProduct(Product product) {
-      useProductsState.value.remove(product);
+      useProductsState.value = [...useProductsState.value..remove(product)];
     }
 
     return Scaffold(
@@ -87,7 +87,9 @@ class VwProducts extends HookWidget {
                 },
                 child: WdProduct(
                   product: product,
-                  onDismiss: () => removeProduct(product),
+                  onDismiss: () {
+                    removeProduct(product);
+                  },
                 ),
               );
             },
@@ -95,6 +97,7 @@ class VwProducts extends HookWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
         onPressed: () async {
           var newProduct = await showModalBottomSheet(
             context: context,

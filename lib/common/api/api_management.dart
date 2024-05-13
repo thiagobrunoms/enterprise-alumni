@@ -8,8 +8,12 @@ import 'package:flutter_test_template/products/data/rest_products_api.dart';
 import 'package:flutter_test_template/profile/data/profile_api.dart';
 import 'package:flutter_test_template/profile/data/rest_profile_api.dart';
 
-class Api {
-  Api._() {
+abstract class ApiManagement {
+  Future<void> setup();
+}
+
+class DioApi implements ApiManagement {
+  DioApi._() {
     _dio = Dio(BaseOptions(baseUrl: 'https://dummyjson.com'));
     _client = DioHttpClient(_dio);
   }
@@ -20,6 +24,7 @@ class Api {
   late Dio _dio;
   late HttpClient _client;
 
+  @override
   Future<void> setup() async {
     products = RestProductsApi(_client);
     authentication = RestAuthenticationApi(_client);
@@ -44,4 +49,4 @@ class Api {
   }
 }
 
-final api = Api._();
+final api = DioApi._();
