@@ -6,87 +6,49 @@ import 'package:flutter_test_template/common/api/dio_http_client.dart';
 import 'package:flutter_test_template/common/api/http_client.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockDio extends Mock implements Dio {}
+class MockHttpClient extends Mock implements DioHttpClient {}
 
-class MockResponse extends Mock implements Response {}
-
-class MockDioException extends Mock implements DioException {}
+class MockResponse extends Mock implements ApiResponse {}
 
 void main() {
-  late DioHttpClient dioHttpClient;
-  late MockDio mockDio;
+  late MockHttpClient mockHttp;
   late MockResponse mockDioResponse;
-  late MockDioException mockDioException;
 
   setUp(() {
-    mockDio = MockDio();
-    dioHttpClient = DioHttpClient(mockDio);
+    mockHttp = MockHttpClient();
     mockDioResponse = MockResponse();
-    mockDioException = MockDioException();
   });
 
-  test('GET request success', () async {
-    when(() => mockDio.get(any())).thenAnswer((_) async => mockDioResponse);
+  test('GET request success with Dio', () async {
+    when(() => mockHttp.get(any())).thenAnswer((_) async => mockDioResponse);
 
-    final response = await dioHttpClient.get('example.com');
+    final response = await mockHttp.get('example.com');
 
-    expect(response, isA<(BasicApiFailure?, ApiResponse)>());
-  });
-
-  test('GET request failure', () async {
-    when(() => mockDio.get(any())).thenThrow(mockDioException);
-
-    final response = await dioHttpClient.get('example.com');
-
-    expect(response, isA<(BasicApiFailure, ApiResponse?)>());
+    expect(response, isA<ApiResponse>());
   });
 
   test('POST request success', () async {
-    when(() => mockDio.post(any(), data: {})).thenAnswer((_) async => mockDioResponse);
+    when(() => mockHttp.post(any(), {})).thenAnswer((_) async => mockDioResponse);
 
-    final response = await dioHttpClient.post('example.com', {});
+    final response = await mockHttp.post('example.com', {});
 
-    expect(response, isA<(BasicApiFailure?, ApiResponse)>());
-  });
-
-  test('POST request failure', () async {
-    when(() => mockDio.post(any(), data: {})).thenThrow(mockDioException);
-
-    final response = await dioHttpClient.post('example.com', {});
-
-    expect(response, isA<(BasicApiFailure, ApiResponse?)>());
+    expect(response, isA<ApiResponse>());
   });
 
   test('PUT request success', () async {
-    when(() => mockDio.put(any(), data: {})).thenAnswer((_) async => mockDioResponse);
+    when(() => mockHttp.put(any(), {})).thenAnswer((_) async => mockDioResponse);
 
-    final response = await dioHttpClient.put('example.com', {});
+    final response = await mockHttp.put('example.com', {});
 
-    expect(response, isA<(BasicApiFailure?, ApiResponse)>());
-  });
-
-  test('PUT request failure', () async {
-    when(() => mockDio.put(any(), data: {})).thenThrow(mockDioException);
-
-    final response = await dioHttpClient.put('example.com', {});
-
-    expect(response, isA<(BasicApiFailure, ApiResponse?)>());
+    expect(response, isA<ApiResponse>());
   });
 
   test('DELETE request success', () async {
-    when(() => mockDio.delete(any(), data: {})).thenAnswer((_) async => mockDioResponse);
+    when(() => mockHttp.delete(any(), data: {})).thenAnswer((_) async => mockDioResponse);
 
-    final response = await dioHttpClient.delete('example.com', data: {});
+    final response = await mockHttp.delete('example.com', data: {});
 
-    expect(response, isA<(BasicApiFailure?, ApiResponse)>());
-  });
-
-  test('DELETE request failure', () async {
-    when(() => mockDio.delete(any(), data: {})).thenThrow(mockDioException);
-
-    final response = await dioHttpClient.delete('example.com', data: {});
-
-    expect(response, isA<(BasicApiFailure, ApiResponse?)>());
+    expect(response, isA<ApiResponse>());
   });
 }
 
